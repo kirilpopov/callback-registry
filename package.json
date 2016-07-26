@@ -1,10 +1,11 @@
 {
   "name": "callback-registry",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Registry for callbacks",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "mocha tests/index.js -w"
+    "test": "mocha tests/index.js",
+    "prepublish" : "npm run test"
   },
   "repository": {
     "type": "git",
