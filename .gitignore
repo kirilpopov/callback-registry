@@ -1,0 +1,7 @@
+node_modules
+.idea
+.vscode
+.vs
+bin
+obj
+npm-debug.log

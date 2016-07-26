@@ -1,0 +1,29 @@
+{
+  "name": "callback-registry",
+  "version": "1.0.0",
+  "description": "Registry for callbacks",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "mocha tests/index.js -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirilpopov/callback-registry.git"
+  },
+  "keywords": [
+    "callbacks",
+    "registry",
+    "store",
+    "dispatcher"
+  ],
+  "author": "Kiril Popov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kirilpopov/callback-registry/issues"
+  },
+  "homepage": "https://github.com/kirilpopov/callback-registry#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}
