@@ -7,8 +7,8 @@ Similar to EventEmitter but not limited to Node.js.
 
 ```javascript
 
-const Registry = require('callback-registry');
-const registry = Registry();
+const callbackRegistry = require('callback-registry');
+const registry = callbackRegistry();
 
 // add a new callback for that event key
 registry.add('event-key', function(){
