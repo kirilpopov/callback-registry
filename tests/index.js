@@ -49,11 +49,11 @@ describe('callback-registry', function (done) {
 
     it('should be able to remove callback', function (done) {
         var registry = Registry();
-        var callbackKey = registry.add('test', function () {
+        var removeCallback = registry.add('test', function () {
             console.log('!!! ERROR');
             done('should not be executed');
         });
-        registry.remove(callbackKey);
+        removeCallback('test');
         registry.execute('test');
         done();
     });

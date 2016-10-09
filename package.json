@@ -1,6 +1,6 @@
 {
   "name": "callback-registry",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Registry for callbacks",
   "main": "./lib/index.js",
   "scripts": {
