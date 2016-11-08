@@ -22,7 +22,7 @@ describe('callback-registry', function (done) {
             if (invoked == 3) {
                 done();
             }
-        }
+        };
         registry.add('test', p);
         registry.add('test', p);
         registry.add('test', p);
@@ -37,7 +37,7 @@ describe('callback-registry', function (done) {
             if (invoked == 2) {
                 done();
             }
-        }
+        };
         var p2 = function () {
             done('should not be invoked');
         }
@@ -70,4 +70,36 @@ describe('callback-registry', function (done) {
         });
         registry.execute('test', 1, '2', 3);
     });
+
+    it('should return arguments', function(){
+        var registry = Registry();
+        registry.add('test', function () {
+            return {a:1};
+        });
+        registry.add('test', function () {
+            return {a:2};
+        });
+
+        var result = registry.execute('test');
+        expect(result[0]).to.be.an('object');
+        expect(result[0].a).to.equal(1);
+        expect(result[1]).to.be.an('object');
+        expect(result[1].a).to.equal(2);
+    })
+
+    it('should return arguments', function(){
+        var registry = Registry();
+        registry.add('test', function () {
+            return {a:1};
+        });
+        var unsubscribe2 = registry.add('test', function () {
+            unsubscribe2();
+            return {a:2};
+        });
+
+        var result = registry.execute('test');
+        expect(result.length).to.equal(2);
+        result = registry.execute('test');
+        expect(result.length).to.equal(1);
+    })
 });
