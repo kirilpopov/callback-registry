@@ -85,9 +85,9 @@ describe('callback-registry', function (done) {
         expect(result[0].a).to.equal(1);
         expect(result[1]).to.be.an('object');
         expect(result[1].a).to.equal(2);
-    })
+    });
 
-    it('should return arguments', function(){
+    it('should return results from the callbacks in array', function(){
         var registry = Registry();
         registry.add('test', function () {
             return {a:1};
@@ -101,5 +101,29 @@ describe('callback-registry', function (done) {
         expect(result.length).to.equal(2);
         result = registry.execute('test');
         expect(result.length).to.equal(1);
-    })
+    });
+
+    it('should return empty array if no subscribers', function(){
+        var registry = Registry();
+        var result = registry.execute('test');
+        expect(Array.isArray(result)).to.equal(true);
+        expect(result.length).to.equal(0);
+    });
+
+    it('should return results from the callbacks even if some of the callbacks throw Error', function(){
+        var registry = Registry();
+        registry.add('test', function () {
+           throw Error('test');
+        });
+
+        registry.add('test', function () {
+            return 1;
+        });
+
+        var result = registry.execute('test');
+        expect(Array.isArray(result)).to.equal(true);
+        expect(result.length).to.equal(2);
+        expect(result[0]).to.equal(undefined);
+        expect(result[1]).to.equal(1);
+    });
 });

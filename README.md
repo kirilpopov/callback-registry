@@ -28,7 +28,7 @@ registry.execute('event-key', arg1, arg2, arg3);
 ```
 
 # Returning results
-The _execute_ method returns an array with the reuslts retuned from the callbacks.
+The _execute_ method returns an array with the results returned from the callbacks.
 
 # Removing a callback
 When you add a new callback a function is returned that can be used to unsubscribe
@@ -42,3 +42,9 @@ var unsubscribe = registry.add('event-key', function(){
 });
 
 ```
+
+# Change log
+
+* 2.1.1
+  * return empty array as result if no subscribers
+  * catch errors in user callbacks (returns undefine in the result if error)
