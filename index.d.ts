@@ -7,7 +7,7 @@ export interface CallbackRegistry {
      * Adds a new callback to the registry under some key.
      * The callback will be notified when someone executes
      */
-    add(key: string, callback: () => any): UnsubscribeFunction;
+    add(key: string, callback: (...args) => any): UnsubscribeFunction;
 
     /**
      * Executes all callbacks registered for a certain key.
