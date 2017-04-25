@@ -126,4 +126,28 @@ describe('callback-registry', function (done) {
         expect(result[0]).to.equal(undefined);
         expect(result[1]).to.equal(1);
     });
+
+    it('bugfix (https://github.com/gdavidkov) - issue when unsubscribing with more than one callbacks per key', function() {
+        var registry = Registry();
+
+        var executions1 = 0;
+        var executions2 = 0;
+
+        var unsubscribe1 = registry.add('test', function () {
+            unsubscribe1();
+            executions1++;
+        });
+
+        var unsubscribe2 = registry.add('test', function () {
+            unsubscribe2();
+            executions2++;
+        });
+
+        registry.execute('test');
+        registry.execute('test');
+        registry.execute('test');
+
+        expect(executions1).to.equal(1);
+        expect(executions2).to.equal(1);
+    });
 });
