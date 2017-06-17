@@ -5,7 +5,7 @@ nocache = function (module) {
 };
 
 var Registry = nocache('../lib/index.js');
-
+console.log(Registry)
 describe('callback-registry', function (done) {
 
     it('should execute single callback', function (done) {
