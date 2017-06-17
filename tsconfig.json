@@ -3,8 +3,6 @@
         "noImplicitAny": true,
         "sourceMap": true,
         "module": "commonjs",
-        "declaration": true,
-        "declarationDir": "./types_temp/",
         "target": "es5",
         "pretty": true,
         "removeComments": true
