@@ -1,11 +1,11 @@
 # Intro
 
 A simple registry for callbacks that allows you to add one or more callbacks
-under some key and then execute all by just using the key.
+under some key and then execute all callbacks under some key.
 
 Example:
-```javascript
 
+```javascript
 const registryFactory = require('callback-registry');
 
 const registry = registryFactory();
