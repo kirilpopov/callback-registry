@@ -17,6 +17,12 @@ export interface CallbackRegistry {
      * callbacks
      */
     execute(key: string, ...argumentsArr: any[]): object[];
+
+    /**
+     * Removes all keys and callbacks from the registry.
+     * Useful when cleaning up your components
+     */
+    clear(): void;
 }
 
 export interface Callback {

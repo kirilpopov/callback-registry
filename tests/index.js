@@ -150,4 +150,35 @@ describe('callback-registry', function (done) {
         expect(executions1).to.equal(1);
         expect(executions2).to.equal(1);
     });
+
+    it('should remove all callbacks on clear', function(){
+        var registry = Registry();
+        registry.add('test', function () {
+           throw Error('test');
+        });
+
+        registry.add('test', function () {
+            throw Error('test');
+        });
+
+        registry.clear();
+        var result = registry.execute('test');
+    });
+
+
+    it('after clear I can call remove and it should not fail', function(){
+        var registry = Registry();
+        var remove1 = registry.add('test', function () {
+           throw Error('test');
+        });
+
+        var remove2 = registry.add('test', function () {
+            throw Error('test');
+        });
+
+        registry.clear();
+        var result = registry.execute('test');
+        remove1();
+        remove2();
+    });
 });

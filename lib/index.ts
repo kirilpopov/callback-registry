@@ -16,9 +16,13 @@ function createRegistry(): CallbackRegistry {
 
         // remove function
         return () => {
-            // get a new view of the collection(
+            // get a new view of the collection
             var allForKey = callbacks[key];
-            allForKey = allForKey.filter(function (item) {
+            if (!allForKey){
+                // someone might have called clear in between add and remove
+                return;
+            }
+            allForKey = allForKey.filter(function(item) {
                 return item !== callback;
             });
             callbacks[key] = allForKey;
@@ -32,7 +36,7 @@ function createRegistry(): CallbackRegistry {
         }
 
         var results: object[] = [];
-        callbacksForKey.forEach(function (callback) {
+        callbacksForKey.forEach(function(callback) {
             try {
                 var result = callback.apply(undefined, argumentsArr);
                 results.push(result);
@@ -44,9 +48,14 @@ function createRegistry(): CallbackRegistry {
         return results;
     }
 
+    function clear() {
+        callbacks = {};
+    }
+
     return {
         add: add,
-        execute: execute
+        execute: execute,
+        clear: clear
     };
 };
 

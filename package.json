@@ -1,8 +1,9 @@
 {
     "name": "callback-registry",
-    "version": "2.2.7",
+    "version": "2.3.0",
     "description": "Registry for callbacks",
     "main": "./lib/index.js",
+    "types": "./index.d.ts",
     "scripts": {
         "build": "tsc",
         "test": "npm run build && mocha tests/index.js",
