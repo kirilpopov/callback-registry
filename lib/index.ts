@@ -41,7 +41,7 @@ function createRegistry(): CallbackRegistry {
                 var result = callback.apply(undefined, argumentsArr);
                 results.push(result);
             } catch (err) {
-                results.push({failed: true, error:err});
+                results.push({failed: true, error: err});
             }
         });
 
