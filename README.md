@@ -42,9 +42,9 @@ var unsubscribe = registry.add('event-key', function(){
 });
 
 ```
-
 # Change log
-
+* 2.3.2
+  * fix case where unsubscribe function removes all subscriptions with the same callback reference
 * 2.1.1
   * return empty array as result if no subscribers
-  * catch errors in user callbacks (returns undefine in the result if error)
+  * catch errors in user callbacks (returns undefined in the result if error)
