@@ -4,7 +4,7 @@
         "noImplicitAny": true,
         "sourceMap": true,
         "module": "commonjs",
-        "target": "es6",
+        "target": "es5",
         "pretty": true,
         "removeComments": true
     },
