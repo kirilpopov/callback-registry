@@ -1,6 +1,20 @@
-import { CallbackRegistry, UnsubscribeFunction, Callback } from "./api";
+import { CallbackRegistry, UnsubscribeFunction, Callback, InitOptions, ErrorHandler } from "./api";
 
-function createRegistry(): CallbackRegistry {
+/**
+ *
+ * @param options "log" (default) | "silent" (the current) | "throw" (throw the error) | function - pass a function to be called on error
+ */
+function createRegistry(options: InitOptions): CallbackRegistry {
+    if (options && options.errorHandling
+        && typeof options.errorHandling !== "function"
+        && options.errorHandling !== "log"
+        && options.errorHandling !== "silent"
+        && options.errorHandling !== "throw"
+    ) {
+        throw new Error(`Invalid options passed to createRegistry. Prop errorHandling should be ["log" | "silent" | "throw" | (err) => void], but ${typeof options.errorHandling} was passed`)
+    }
+
+    const _userErrorHandler: ErrorHandler = options && typeof options.errorHandling === "function" && options.errorHandling;
 
     var callbacks: { [key: string]: Callback[] } = {};
 
@@ -45,10 +59,35 @@ function createRegistry(): CallbackRegistry {
                 results.push(result);
             } catch (err) {
                 results.push(undefined);
+                _handleError(err, key);
             }
         });
 
         return results;
+    }
+
+    function _handleError(exceptionArtifact: any, key: string) {
+        const errParam = exceptionArtifact instanceof Error ? exceptionArtifact : new Error(exceptionArtifact);
+
+        if (_userErrorHandler) {
+            _userErrorHandler(errParam);
+            return;
+        }
+
+        const msg = `[ERROR] callback-registry: User callback for key "${key}" failed: ${errParam.stack}`;
+
+        if (options) {
+            switch (options.errorHandling) {
+                case "log":
+                    return console.error(msg);
+                case "silent":
+                    return;
+                case "throw":
+                    throw new Error(msg);
+            }
+        }
+
+        console.error(msg);
     }
 
     function clear() {

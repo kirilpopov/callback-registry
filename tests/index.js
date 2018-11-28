@@ -181,4 +181,137 @@ describe('callback-registry', function (done) {
         remove1();
         remove2();
     });
+
+    it('should log errors in console with default options', function(done){
+        var registry = Registry();
+        var remove1 = registry.add('test', function () {
+           throw Error('test-error');
+        });
+
+        var oldConError = console.error;
+        console.error = function wrappedError(...msg) {
+            oldConError.apply(oldConError, msg);
+            console.error = oldConError;
+            expect(msg[0]).to.include('test-error');
+            done();
+        }
+        var result = registry.execute('test');
+        remove1();
+    });
+
+    it('should log errors in console with log option set', function(done){
+        var registry = Registry({errorHandling: "log"});
+        var remove1 = registry.add('test', function () {
+           throw Error('test-error');
+        });
+
+        var oldConError = console.error;
+        console.error = function wrappedError(...msg) {
+            oldConError.apply(oldConError, msg);
+            console.error = oldConError;
+            expect(msg[0]).to.include('test-error');
+            done();
+        }
+        var result = registry.execute('test');
+        remove1();
+    });
+
+    it('should silence errors with silent set', function(done){
+        var registry = Registry({errorHandling: "silent"});
+        var remove1 = registry.add('test', function () {
+           throw Error('test-error');
+        });
+
+        var oldConError = console.error;
+        console.error = function wrappedError(...msg) {
+            oldConError.apply(oldConError, msg);
+            console.error = oldConError;
+            expect(msg[0]).to.include('test-error');
+            done("should not be logging");
+        }
+        var result = registry.execute('test');
+        remove1();
+        done();
+    });
+
+    it('should explode with throw set', function(done){
+        var registry = Registry({errorHandling: "throw"});
+
+        var remove1 = registry.add('test', function () {
+            throw Error('test-error');
+        });
+
+        var oldConError = console.error;
+        console.error = function wrappedError(...msg) {
+            oldConError.apply(oldConError, msg);
+            console.error = oldConError;
+            expect(msg[0]).to.include('test-error');
+            done("Should not be logging!");
+        }
+
+        try {
+            var result = registry.execute('test');
+            done("should have exploded");
+        } catch (error) {
+            remove1();
+            done();
+        }
+    });
+
+    it('should use custom handler when it is set', function(done){
+        var witness = "";
+        var registry = Registry({errorHandling: function handleErr(){witness = "handled"}});
+
+        var remove1 = registry.add('test', function () {
+            throw Error('test-error');
+        });
+
+        var oldConError = console.error;
+        console.error = function wrappedError(...msg) {
+            oldConError.apply(oldConError, msg);
+            console.error = oldConError;
+            expect(msg[0]).to.include('test-error');
+            done("Should not be logging!");
+        }
+
+        try {
+            var result = registry.execute('test');
+            expect(witness).to.equal("handled");
+            done();
+            remove1();
+        } catch (error) {
+            done("should not have exploded");
+        }
+    });
+
+    it('should explode when custom handler is set and explodes', function(done){
+        var registry = Registry({
+            errorHandling: function handleErr(err){
+                expect(err instanceof Error).to.be.true;
+                throw new Error(`handler-error : ${err}`);
+            }
+        });
+
+        var remove1 = registry.add('test', function () {
+            throw Error('test-error');
+        });
+
+        var oldConError = console.error;
+        console.error = function wrappedError(...msg) {
+            oldConError.apply(oldConError, msg);
+            console.error = oldConError;
+            expect(msg[0]).to.include('test-error');
+            done("Should not be logging!");
+        }
+
+        try {
+            var result = registry.execute('test');
+            done("should have exploded");
+        } catch (error) {
+            expect(error.toString()).contains('test-error');
+            expect(error.toString()).contains('handler-error');
+            remove1();
+            done();
+        }
+    });
 });
