@@ -1,7 +1,7 @@
 /**
  * Factory method that creates a new callback registry instance
  */
-declare function Factory(): CallbackRegistry;
+declare function Factory(options?: InitOptions): CallbackRegistry;
 export default Factory;
 
 export interface CallbackRegistry {
@@ -31,4 +31,10 @@ export interface Callback {
 
 export interface UnsubscribeFunction {
     (): void;
+}
+
+export type ErrorHandler = (err: Error) => void
+
+export interface InitOptions {
+    errorHandling: "log" | "silent" | "throw" | ErrorHandler;
 }
