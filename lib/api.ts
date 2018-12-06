@@ -23,6 +23,11 @@ export interface CallbackRegistry {
      * Useful when cleaning up your components
      */
     clear(): void;
+
+    /**
+     * Removes a specific key and its associated callbacks from the registry.
+     */
+    clearKey(key: string): void;
 }
 
 export interface Callback {

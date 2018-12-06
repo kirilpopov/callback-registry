@@ -94,10 +94,21 @@ function createRegistry(options: InitOptions): CallbackRegistry {
         callbacks = {};
     }
 
+    function clearKey(key: string) {
+        var callbacksForKey = callbacks[key];
+
+        if (!callbacksForKey) {
+            return;
+        }
+
+        delete callbacks[key];
+    }
+
     return {
         add: add,
         execute: execute,
-        clear: clear
+        clear: clear,
+        clearKey: clearKey
     };
 };
 
