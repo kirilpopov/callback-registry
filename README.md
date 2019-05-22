@@ -43,6 +43,8 @@ var unsubscribe = registry.add('event-key', function(){
 
 ```
 # Change log
+* 2.5.0 
+    added clearKey method that removes a key from the registry
 * 2.3.2
   * fix case where unsubscribe function removes all subscriptions with the same callback reference
 * 2.1.1

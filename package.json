@@ -1,6 +1,6 @@
 {
     "name": "callback-registry",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "description": "Registry for callbacks",
     "main": "./lib/index.js",
     "types": "./index.d.ts",
