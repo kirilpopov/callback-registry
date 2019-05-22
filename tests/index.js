@@ -182,6 +182,59 @@ describe('callback-registry', function (done) {
         remove2();
     });
 
+    it('should remove all callbacks for key on clearKey', function(done){
+        var flag = null;
+        var registry = Registry();
+        registry.add('test', function () {
+           done('should not have called this')
+        });
+
+        registry.add('testOtherKey', function () {
+            flag = 'pass'
+        });
+
+        registry.clearKey('test');
+        registry.execute('test');
+        registry.execute('testOtherKey');
+        expect(flag).to.equal('pass');
+        done();
+    });
+
+    it('should not fail if execute key after clearKey', function(done){
+        var registry = Registry();
+        registry.add('test', function () {
+           done('should not have called this')
+        });
+
+        registry.clearKey('test');
+        registry.execute('test');
+        done();
+    });
+
+    it('should execute one callback after clearKey and adding a new callback', function(done){
+        var flag = null;
+        var registry = Registry();
+        registry.add('test', function () {
+           done('should not have called this')
+        });
+
+        registry.clearKey('test');
+
+        registry.add('test', function () {
+            flag = 'pass'
+        });
+
+        registry.execute('test');
+        expect(flag).to.equal('pass');
+        done();
+    });
+
+    it('should clearKey for key that was never added', function(done){
+        var registry = Registry();
+        registry.clearKey('test');
+        done();
+    });
+
     it('should log errors in console with default options', function(done){
         var registry = Registry();
         var remove1 = registry.add('test', function () {
