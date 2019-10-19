@@ -1,13 +1,13 @@
 {
     "name": "callback-registry",
-    "version": "2.5.0",
+    "version": "2.5.1",
     "description": "Registry for callbacks",
     "main": "./lib/index.js",
     "types": "./index.d.ts",
     "scripts": {
         "build": "tsc",
         "test": "npm run build && mocha tests/index.js",
-        "prepublish": "npm run test"
+        "prepublishOnly": "npm run test"
     },
     "repository": {
         "type": "git",
@@ -26,9 +26,9 @@
     },
     "homepage": "https://github.com/kirilpopov/callback-registry#readme",
     "devDependencies": {
-        "chai": "^3.5.0",
-        "mocha": "^2.5.3",
-        "typescript": "^2.3.4"
+        "chai": "4.2.0",
+        "mocha": "6.2.2",
+        "typescript": "3.6.4"
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org"
