@@ -368,7 +368,25 @@ describe('callback-registry', function (done) {
         }
     });
 
-    it('should invoke the callback provided to add with the replayArguments', function (done) {
+    it('should invoke the callback provided to add with the replayArguments (single argument)', function (done) {
+        const replayArgumentsArr = ['Alice', 'Bob'];
+
+        const invokedWith = [];
+
+        const registry = Registry();
+
+        const callback = (name) => {
+            invokedWith.push(name);
+
+            if (invokedWith.length === replayArgumentsArr.length && invokedWith.every((arg) => replayArgumentsArr.includes(arg))) {
+                done();
+            }
+        };
+
+        registry.add('test', callback, replayArgumentsArr);
+    });
+
+    it('should invoke the callback provided to add with the replayArguments (multiple arguments)', function (done) {
         const replayArgumentsArr = [['Alice', 25], ['Bob', 30]];
 
         const invokedWith = [];
