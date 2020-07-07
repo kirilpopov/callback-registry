@@ -7,9 +7,13 @@ export default Factory;
 export interface CallbackRegistry {
     /**
      * Adds a new callback to the registry under some key.
-     * The callback will be notified when someone executes
+     * The callback will be notified when someone executes.
+     * The callback will be called with all replayArguments:
+     * e.g. add('clientAdded', (name, age) => console.log(name, age), [['Alice', 25], ['Bob', 30]])
+     * will invoke the callback with 'Alice', 25 and 'Bob', 30 *after* returning the unsubscribe function.
+     * An example use case are events that need to call the provided callback with previous values (replay) and want to allow the callback to unsubscribe while replaying
      */
-    add(key: string, callback: Callback): UnsubscribeFunction;
+    add(key: string, callback: Callback, replayArgumentsArr?: any[] | Array<any[]>): UnsubscribeFunction;
 
     /**
      * Executes all callbacks registered for a certain key.

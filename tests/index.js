@@ -71,13 +71,13 @@ describe('callback-registry', function (done) {
         registry.execute('test', 1, '2', 3);
     });
 
-    it('should return arguments', function(){
+    it('should return arguments', function () {
         var registry = Registry();
         registry.add('test', function () {
-            return {a:1};
+            return { a: 1 };
         });
         registry.add('test', function () {
-            return {a:2};
+            return { a: 2 };
         });
 
         var result = registry.execute('test');
@@ -87,14 +87,14 @@ describe('callback-registry', function (done) {
         expect(result[1].a).to.equal(2);
     });
 
-    it('should return results from the callbacks in array', function(){
+    it('should return results from the callbacks in array', function () {
         var registry = Registry();
         registry.add('test', function () {
-            return {a:1};
+            return { a: 1 };
         });
         var unsubscribe2 = registry.add('test', function () {
             unsubscribe2();
-            return {a:2};
+            return { a: 2 };
         });
 
         var result = registry.execute('test');
@@ -103,17 +103,17 @@ describe('callback-registry', function (done) {
         expect(result.length).to.equal(1);
     });
 
-    it('should return empty array if no subscribers', function(){
+    it('should return empty array if no subscribers', function () {
         var registry = Registry();
         var result = registry.execute('test');
         expect(Array.isArray(result)).to.equal(true);
         expect(result.length).to.equal(0);
     });
 
-    it('should return results from the callbacks even if some of the callbacks throw Error', function(){
+    it('should return results from the callbacks even if some of the callbacks throw Error', function () {
         var registry = Registry();
         registry.add('test', function () {
-           throw Error('test');
+            throw Error('test');
         });
 
         registry.add('test', function () {
@@ -127,7 +127,7 @@ describe('callback-registry', function (done) {
         expect(result[1]).to.equal(1);
     });
 
-    it('bugfix (https://github.com/gdavidkov) - issue when unsubscribing with more than one callbacks per key', function() {
+    it('bugfix (https://github.com/gdavidkov) - issue when unsubscribing with more than one callbacks per key', function () {
         var registry = Registry();
 
         var executions1 = 0;
@@ -151,10 +151,10 @@ describe('callback-registry', function (done) {
         expect(executions2).to.equal(1);
     });
 
-    it('should remove all callbacks on clear', function(){
+    it('should remove all callbacks on clear', function () {
         var registry = Registry();
         registry.add('test', function () {
-           throw Error('test');
+            throw Error('test');
         });
 
         registry.add('test', function () {
@@ -166,10 +166,10 @@ describe('callback-registry', function (done) {
     });
 
 
-    it('after clear I can call remove and it should not fail', function(){
+    it('after clear I can call remove and it should not fail', function () {
         var registry = Registry();
         var remove1 = registry.add('test', function () {
-           throw Error('test');
+            throw Error('test');
         });
 
         var remove2 = registry.add('test', function () {
@@ -182,11 +182,11 @@ describe('callback-registry', function (done) {
         remove2();
     });
 
-    it('should remove all callbacks for key on clearKey', function(done){
+    it('should remove all callbacks for key on clearKey', function (done) {
         var flag = null;
         var registry = Registry();
         registry.add('test', function () {
-           done('should not have called this')
+            done('should not have called this')
         });
 
         registry.add('testOtherKey', function () {
@@ -200,10 +200,10 @@ describe('callback-registry', function (done) {
         done();
     });
 
-    it('should not fail if execute key after clearKey', function(done){
+    it('should not fail if execute key after clearKey', function (done) {
         var registry = Registry();
         registry.add('test', function () {
-           done('should not have called this')
+            done('should not have called this')
         });
 
         registry.clearKey('test');
@@ -211,11 +211,11 @@ describe('callback-registry', function (done) {
         done();
     });
 
-    it('should execute one callback after clearKey and adding a new callback', function(done){
+    it('should execute one callback after clearKey and adding a new callback', function (done) {
         var flag = null;
         var registry = Registry();
         registry.add('test', function () {
-           done('should not have called this')
+            done('should not have called this')
         });
 
         registry.clearKey('test');
@@ -229,16 +229,16 @@ describe('callback-registry', function (done) {
         done();
     });
 
-    it('should clearKey for key that was never added', function(done){
+    it('should clearKey for key that was never added', function (done) {
         var registry = Registry();
         registry.clearKey('test');
         done();
     });
 
-    it('should log errors in console with default options', function(done){
+    it('should log errors in console with default options', function (done) {
         var registry = Registry();
         var remove1 = registry.add('test', function () {
-           throw Error('test-error');
+            throw Error('test-error');
         });
 
         var oldConError = console.error;
@@ -252,10 +252,10 @@ describe('callback-registry', function (done) {
         remove1();
     });
 
-    it('should log errors in console with log option set', function(done){
-        var registry = Registry({errorHandling: "log"});
+    it('should log errors in console with log option set', function (done) {
+        var registry = Registry({ errorHandling: "log" });
         var remove1 = registry.add('test', function () {
-           throw Error('test-error');
+            throw Error('test-error');
         });
 
         var oldConError = console.error;
@@ -269,10 +269,10 @@ describe('callback-registry', function (done) {
         remove1();
     });
 
-    it('should silence errors with silent set', function(done){
-        var registry = Registry({errorHandling: "silent"});
+    it('should silence errors with silent set', function (done) {
+        var registry = Registry({ errorHandling: "silent" });
         var remove1 = registry.add('test', function () {
-           throw Error('test-error');
+            throw Error('test-error');
         });
 
         var oldConError = console.error;
@@ -287,8 +287,8 @@ describe('callback-registry', function (done) {
         done();
     });
 
-    it('should explode with throw set', function(done){
-        var registry = Registry({errorHandling: "throw"});
+    it('should explode with throw set', function (done) {
+        var registry = Registry({ errorHandling: "throw" });
 
         var remove1 = registry.add('test', function () {
             throw Error('test-error');
@@ -311,9 +311,9 @@ describe('callback-registry', function (done) {
         }
     });
 
-    it('should use custom handler when it is set', function(done){
+    it('should use custom handler when it is set', function (done) {
         var witness = "";
-        var registry = Registry({errorHandling: function handleErr(){witness = "handled"}});
+        var registry = Registry({ errorHandling: function handleErr() { witness = "handled" } });
 
         var remove1 = registry.add('test', function () {
             throw Error('test-error');
@@ -337,9 +337,9 @@ describe('callback-registry', function (done) {
         }
     });
 
-    it('should explode when custom handler is set and explodes', function(done){
+    it('should explode when custom handler is set and explodes', function (done) {
         var registry = Registry({
-            errorHandling: function handleErr(err){
+            errorHandling: function handleErr(err) {
                 expect(err instanceof Error).to.be.true;
                 throw new Error(`handler-error : ${err}`);
             }
@@ -366,5 +366,47 @@ describe('callback-registry', function (done) {
             remove1();
             done();
         }
+    });
+
+    it('should invoke the callback provided to add with the replayArguments', function (done) {
+        const replayArgumentsArr = [['Alice', 25], ['Bob', 30]];
+
+        const invokedWith = [];
+
+        const registry = Registry();
+
+        const callback = (name, age) => {
+            invokedWith.push([name, age]);
+
+            if (invokedWith.length === replayArgumentsArr.length && invokedWith.every((args) => replayArgumentsArr.some((replayArgs) => replayArgs.every((arg, index) => arg === args[index])))) {
+                done();
+            }
+        };
+
+        registry.add('test', callback, replayArgumentsArr);
+    });
+
+    it('should not invoke the callback provided to add with the replayArguments after unsubscribing', function (done) {
+        const replayArgumentsArr = [['Alice', 25], ['Bob', 30]];
+
+        const invokedWith = [];
+
+        const registry = Registry();
+
+        let unsub;
+
+        setTimeout(() => {
+            if (invokedWith.length === 1 && replayArgumentsArr[0].every((arg, index) => arg === invokedWith[0][index])) {
+                done();
+            }
+        }, 1500);
+
+        const callback = (name, age) => {
+            invokedWith.push([name, age]);
+
+            unsub();
+        };
+
+        unsub = registry.add('test', callback, replayArgumentsArr);
     });
 });
