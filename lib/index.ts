@@ -18,7 +18,7 @@ function createRegistry(options: InitOptions): CallbackRegistry {
 
     var callbacks: { [key: string]: Callback[] } = {};
 
-    function add(key: string, callback: Callback): UnsubscribeFunction {
+    function add(key: string, callback: Callback, replayArgumentsArr?: any[] | Array<any[]>): UnsubscribeFunction {
         var callbacksForKey = callbacks[key];
 
         if (!callbacksForKey) {
@@ -27,6 +27,27 @@ function createRegistry(options: InitOptions): CallbackRegistry {
         }
 
         callbacksForKey.push(callback);
+
+        if (replayArgumentsArr) {
+            // Return the UnsubscribeFunction before invoking the callback with the replayArguments so that the user can unsubscribe.
+            setTimeout(() => {
+                replayArgumentsArr.forEach((replayArgument) => {
+                    // Handle the case where the previous callback has called the remove UnsubscribeFunction.
+                    if (callbacks[key]?.includes(callback)) {
+                        try {
+                            // Handle the case where the user has an array of objects that (s)he wants to invoke callback with. Instead of forcing the user of wrapping the object with an array we perform the check for him.
+                            if (Array.isArray(replayArgument)) {
+                                callback.apply(undefined, replayArgument);
+                            } else {
+                                callback.apply(undefined, [replayArgument]);
+                            }
+                        } catch (err) {
+                            _handleError(err, key);
+                        }
+                    }
+                });
+            }, 0);
+        }
 
         // remove function
         return () => {

@@ -1,12 +1,16 @@
 {
-    "compilerOptions":
-    {
+    "compilerOptions": {
         "noImplicitAny": true,
         "sourceMap": true,
         "module": "commonjs",
         "target": "es5",
         "pretty": true,
-        "removeComments": true
+        "removeComments": true,
+        "lib": [
+            "es6",
+            "dom",
+            "es2017"
+        ]
     },
     "files": [
         "lib/index.ts"
