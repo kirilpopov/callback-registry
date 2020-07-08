@@ -43,7 +43,9 @@ var unsubscribe = registry.add('event-key', function(){
 
 ```
 # Change log
-* 2.5.0 
+* 2.6.0
+    added replayArgumentsArr that allows you to replay arguments to a new callback
+* 2.5.0
     added clearKey method that removes a key from the registry
 * 2.3.2
   * fix case where unsubscribe function removes all subscriptions with the same callback reference
