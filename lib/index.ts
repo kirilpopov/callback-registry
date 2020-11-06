@@ -63,7 +63,12 @@ function createRegistry(options: InitOptions): CallbackRegistry {
                 }
                 return acc;
             }, []);
-            callbacks[key] = allForKey;
+
+            if (allForKey.length === 0) {
+                delete callbacks[key];
+            } else {
+                callbacks[key] = allForKey;
+            }
         };
     }
 
@@ -74,7 +79,7 @@ function createRegistry(options: InitOptions): CallbackRegistry {
         }
 
         var results: object[] = [];
-        callbacksForKey.forEach(function (callback) {
+        callbacksForKey.forEach(function(callback) {
             try {
                 var result = callback.apply(undefined, argumentsArr);
                 results.push(result);
