@@ -27,7 +27,7 @@
     "homepage": "https://github.com/kirilpopov/callback-registry#readme",
     "devDependencies": {
         "chai": "4.2.0",
-        "mocha": "6.2.2",
+        "mocha": "^8.2.1",
         "typescript": "^3.9.6"
     },
     "publishConfig": {
