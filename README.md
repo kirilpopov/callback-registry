@@ -43,6 +43,8 @@ var unsubscribe = registry.add('event-key', function(){
 
 ```
 # Change log
+* 2.7.1
+	fixed potentional memory leak
 * 2.6.0
     added replayArgumentsArr that allows you to replay arguments to a new callback
 * 2.5.0
